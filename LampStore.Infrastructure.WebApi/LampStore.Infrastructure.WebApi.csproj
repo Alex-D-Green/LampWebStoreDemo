@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LampStore.AppCore.Core\LampStore.AppCore.Core.csproj" />
+    <ProjectReference Include="..\LampStore.AppCore.Services\LampStore.AppCore.Services.csproj" />
+    <ProjectReference Include="..\LampStore.Infrastructure.CompositionRoot\LampStore.Infrastructure.CompositionRoot.csproj" />
+  </ItemGroup>
+
+</Project>
