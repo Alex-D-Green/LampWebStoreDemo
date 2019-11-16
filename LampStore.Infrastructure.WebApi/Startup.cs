@@ -36,41 +36,29 @@ namespace LampStore.Infrastructure.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
         {
-            if(env.IsDevelopment())
-            { 
-                app.UseDeveloperExceptionPage(); 
-            }
-            else
+            app.UseExceptionHandler(builder =>
             {
-                app.UseExceptionHandler(builder =>
+                builder.Run(async (context) =>
                 {
-                    builder.Run(async (context) =>
-                    {
-                        var exceptionHandlerPathFeature =
-                            context.Features.Get<IExceptionHandlerPathFeature>();
+                    var exceptionHandlerPathFeature =
+                        context.Features.Get<IExceptionHandlerPathFeature>();
 
-                        //It's just an example, probably all request data should be logged as well
-                        logger.LogCritical(exceptionHandlerPathFeature.Error, exceptionHandlerPathFeature.Path);
+                    //It's just an example, probably all request data should be logged as well
+                    logger.LogCritical(exceptionHandlerPathFeature.Error, exceptionHandlerPathFeature.Path);
 
 
-                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        context.Response.ContentType = "application/json";
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    context.Response.ContentType = "application/json";
 
-                        await context.Response.WriteAsync(new ErrorDetails {
-                            StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error."
-                        }.ToJson());
-                    });
+                    await context.Response.WriteAsync(new ErrorDetailsApi {
+                        StatusCode = context.Response.StatusCode,
+                        Message = "Internal Server Error."
+                    }.ToJson());
                 });
-            }
+            });
 
             app.UseStatusCodePages();
             app.UseMvc();
-
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
     }
 }

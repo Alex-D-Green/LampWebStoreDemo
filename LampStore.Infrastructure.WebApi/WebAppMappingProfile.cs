@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 
+using LampStore.AppCore.Core.Entities;
+using LampStore.Infrastructure.WebApi.ApiModels;
+
 
 namespace LampStore.Infrastructure.WebApi
 {
@@ -7,8 +10,7 @@ namespace LampStore.Infrastructure.WebApi
     {
         public WebAppMappingProfile()
         {
-            //CreateMap<EntityViewModel, DomainEntity>();
-            //CreateMap<DomainEntity, EntityViewModel>();
+            CreateMap<LampCreationApi, Lamp>();
         }
     }
 }

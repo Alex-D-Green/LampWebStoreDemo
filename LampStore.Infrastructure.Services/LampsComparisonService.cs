@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using LampStore.AppCore.Core.Entities;
 using LampStore.AppCore.Core.Interfaces;
+using LampStore.AppCore.Core.Utilities;
 using LampStore.AppCore.Services.Interfaces;
 
 using Microsoft.Extensions.Logging;
@@ -47,6 +48,11 @@ namespace LampStore.Infrastructure.Services
             return await db.Comparisons.GetAsync();
         }
 
+        public async Task<Comparison> GetComparisonByIdAsync(int id)
+        {
+            return await db.Comparisons.GetByIdAsync(id);
+        }
+
         public Comparison DoComparison(Lamp fst, Lamp snd)
         {
             if(fst is null)
@@ -66,10 +72,10 @@ namespace LampStore.Infrastructure.Services
                 object sndVal = prop.GetValue(snd);
 
                 if(!Object.Equals(fstVal, sndVal))
-                    pairs.Add(new ComparisonPair(0, prop.Name, fstVal?.ToString(), sndVal?.ToString()));
+                    pairs.Add(new ComparisonPair(prop.Name, fstVal?.ToString(), sndVal?.ToString()));
             }
 
-            return new Comparison(0, fst, snd, pairs);
+            return new Comparison(fst, snd, pairs);
         }
 
         public async Task SaveComparsionAsync(Comparison comparison)
@@ -77,16 +83,16 @@ namespace LampStore.Infrastructure.Services
             if(comparison is null)
                 throw new ArgumentNullException(nameof(comparison));
 
-            if(comparison.Id != 0)
-                throw new ArgumentException(
-                    $"The {nameof(Comparison)}.{nameof(Comparison.Id)} property should be equal to zero.", 
-                    nameof(comparison));
+            if(comparison.IsIdSet())
+                throw new ArgumentException($"The Id property should not be set.", nameof(comparison));
 
 
             logger.LogInformation($"Invoke {nameof(SaveComparsionAsync)}()");
 
-            await db.Comparisons.AddAsync(comparison);
+            IdHolder<int> idHolder = await db.Comparisons.AddAsync(comparison);
             await db.SaveAsync();
+
+            comparison.SetId(idHolder.Id);
         }
     }
 }

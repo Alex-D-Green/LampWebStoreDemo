@@ -13,6 +13,8 @@ namespace LampStore.AppCore.Services.Interfaces
 
         Task<IEnumerable<Comparison>> GetAllComparisonsAsync();
 
+        Task<Comparison> GetComparisonByIdAsync(int id);
+
         Comparison DoComparison(Lamp fst, Lamp snd);
 
         Task SaveComparsionAsync(Comparison comparison);

@@ -8,10 +8,8 @@ namespace LampStore.AppCore.Core.Entities
     /// <summary>
     /// Represents the comparison result of the <see cref="FirstLamp"/> and the <see cref="SecondLamp"/>.
     /// </summary>
-    public class Comparison
+    public class Comparison: Entity<int>
     {
-        public int Id { get; }
-
         public Lamp FirstLamp { get; }
 
         public Lamp SecondLamp { get; }
@@ -19,7 +17,8 @@ namespace LampStore.AppCore.Core.Entities
         public IReadOnlyCollection<ComparisonPair> Comparisons { get; }
 
 
-        public Comparison(int id, Lamp firstLamp, Lamp secondLamp, IEnumerable<ComparisonPair> comparisons)
+        public Comparison(Lamp firstLamp, Lamp secondLamp, IEnumerable<ComparisonPair> comparisons, int id = 0)
+            : base(id)
         {
             if(firstLamp is null)
                 throw new ArgumentNullException(nameof(firstLamp));
@@ -28,7 +27,6 @@ namespace LampStore.AppCore.Core.Entities
                 throw new ArgumentNullException(nameof(secondLamp));
 
 
-            Id = id;
             FirstLamp = firstLamp;
             SecondLamp = secondLamp;
             Comparisons = (comparisons ?? Enumerable.Empty<ComparisonPair>()).ToArray();

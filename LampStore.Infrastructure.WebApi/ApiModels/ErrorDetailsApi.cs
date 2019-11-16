@@ -6,7 +6,7 @@ namespace LampStore.Infrastructure.WebApi.ApiModels
     /// <summary>
     /// Error information.
     /// </summary>
-    public sealed class ErrorDetails
+    public sealed class ErrorDetailsApi
     {
         public int StatusCode { get; set; }
 

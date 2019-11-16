@@ -9,6 +9,7 @@ using AutoMapper;
 using LampStore.AppCore.Core.Entities;
 using LampStore.AppCore.Core.Exceptions;
 using LampStore.AppCore.Core.Interfaces;
+using LampStore.AppCore.Core.Utilities;
 using LampStore.Infrastructure.EFStorage.DbContexts;
 using LampStore.Infrastructure.EFStorage.Entities;
 
@@ -93,7 +94,7 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
             return mapper.Map<Comparison>(ret);
         }
 
-        public async Task AddAsync(Comparison item)
+        public async Task<IdHolder<int>> AddAsync(Comparison item)
         {
             if(item is null)
                 throw new ArgumentNullException(nameof(item));
@@ -107,6 +108,8 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
             
             if(comp.SecondLamp.Id != 0)
                 db.Entry(comp.SecondLamp).State = EntityState.Unchanged;
+
+            return new IdHolder<int>(comp, nameof(ComparisonEF.Id));
         }
 
         public void Delete(Comparison item)

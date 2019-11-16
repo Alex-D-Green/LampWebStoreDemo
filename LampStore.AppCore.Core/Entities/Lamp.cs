@@ -6,10 +6,8 @@ namespace LampStore.AppCore.Core.Entities
     /// <summary>
     /// The lamp domain entity.
     /// </summary>
-    public class Lamp
+    public class Lamp: Entity<int>
     {
-        public int Id { get; }
-
         public LampType LampType { get; }
 
         public string Manufacturer { get; }
@@ -19,7 +17,8 @@ namespace LampStore.AppCore.Core.Entities
         public string ImageRef { get; }
 
 
-        public Lamp(int id, LampType lampType, string manufacturer, double cost, string imageRef)
+        public Lamp(LampType lampType, string manufacturer, double cost, string imageRef, int id = 0)
+            : base(id)
         {
             if(String.IsNullOrEmpty(manufacturer))
                 throw new ArgumentNullException(nameof(manufacturer));
@@ -28,7 +27,6 @@ namespace LampStore.AppCore.Core.Entities
                 throw new ArgumentOutOfRangeException(nameof(cost));
 
 
-            Id = id;
             LampType = lampType;
             Manufacturer = manufacturer;
             Cost = cost;

@@ -9,6 +9,7 @@ using AutoMapper;
 using LampStore.AppCore.Core.Entities;
 using LampStore.AppCore.Core.Exceptions;
 using LampStore.AppCore.Core.Interfaces;
+using LampStore.AppCore.Core.Utilities;
 using LampStore.Infrastructure.EFStorage.DbContexts;
 using LampStore.Infrastructure.EFStorage.Entities;
 
@@ -78,15 +79,20 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
             if(ret == null)
                 return null;
 
+            db.Entry<LampEF>(ret).State = EntityState.Detached;
+
             return mapper.Map<Lamp>(ret);
         }
 
-        public async Task AddAsync(Lamp item)
+        public async Task<IdHolder<int>> AddAsync(Lamp item)
         {
             if(item is null)
                 throw new ArgumentNullException(nameof(item));
 
-            await db.Lamps.AddAsync(mapper.Map<LampEF>(item));
+            var efItem = mapper.Map<LampEF>(item);
+            await db.Lamps.AddAsync(efItem);
+
+            return new IdHolder<int>(efItem, nameof(LampEF.Id));
         }
 
         public void Delete(Lamp item)

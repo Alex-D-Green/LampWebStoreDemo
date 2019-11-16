@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using LampStore.AppCore.Core.Utilities;
 
 
 namespace LampStore.AppCore.Core.Interfaces
@@ -35,7 +35,7 @@ namespace LampStore.AppCore.Core.Interfaces
         Task<IEnumerable<TEntity>> GetAsync(int? from = null, int? count = null,
             string sortingBy = null, SortDirection desc = SortDirection.Ascending);
 
-        Task AddAsync(TEntity item);
+        Task<IdHolder<TKey>> AddAsync(TEntity item);
 
         void Update(TEntity item);
 

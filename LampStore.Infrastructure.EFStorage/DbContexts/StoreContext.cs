@@ -2,7 +2,7 @@
 using LampStore.Infrastructure.EFStorage.Entities;
 
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Logging;
 
 namespace LampStore.Infrastructure.EFStorage.DbContexts
 {
@@ -30,8 +30,8 @@ namespace LampStore.Infrastructure.EFStorage.DbContexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Add logging for the DB context to see SQL commands in Debug output
-            //optionsBuilder.UseLoggerFactory(new LoggerFactory().AddDebug())
-            //              .EnableSensitiveDataLogging();
+            optionsBuilder.UseLoggerFactory(new LoggerFactory().AddDebug())
+                          .EnableSensitiveDataLogging();
 
             //TODO: Replace "in code" logger factory in StoreContext by using DI.
         }
