@@ -21,6 +21,7 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
     {
         private const int pageSize = 3;
 
+
         private readonly IUnitOfWork db;
         private readonly IMapper mapper;
 

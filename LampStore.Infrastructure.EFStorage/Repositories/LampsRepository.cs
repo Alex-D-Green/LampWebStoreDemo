@@ -79,7 +79,7 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
             if(ret == null)
                 return null;
 
-            db.Entry<LampEF>(ret).State = EntityState.Detached;
+            db.Entry(ret).State = EntityState.Detached;
 
             return mapper.Map<Lamp>(ret);
         }
@@ -105,7 +105,8 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
 
         public async Task DeleteByIdAsync(int id)
         {
-            LampEF item = await db.Lamps.FindAsync(id) ?? throw new StorageException($"Item with id = {id} not found.");
+            LampEF item = await db.Lamps.FindAsync(id) ?? 
+                throw new ItemNotFoundStorageException($"Item with id = {id} not found.");
 
             db.Lamps.Remove(item);
         }
@@ -118,6 +119,6 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
             db.Lamps.Update(mapper.Map<LampEF>(item));
         }
 
-        //TODO: Wrap up all possible DB exception in GenericRepository into StorageException.
+        //TODO: Wrap up all possible DB exception in LampsRepository into StorageException.
     }
 }

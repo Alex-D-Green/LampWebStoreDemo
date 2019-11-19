@@ -22,6 +22,9 @@ namespace LampStore.Infrastructure.Services
         private readonly ILogger<LampsComparisonService> logger;
 
 
+        public IRepository<Lamp, int> Lamps { get => db.Lamps; }
+
+
         public LampsComparisonService(IUnitOfWork db, ILogger<LampsComparisonService> logger)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
@@ -34,18 +37,12 @@ namespace LampStore.Infrastructure.Services
         }
 
 
-        public async Task<IEnumerable<Lamp>> GetAllLampsAsync()
-        {
-            logger.LogInformation($"Invoke {nameof(GetAllLampsAsync)}()");
-
-            return await db.Lamps.GetAsync();
-        }
-
-        public async Task<IEnumerable<Comparison>> GetAllComparisonsAsync()
+        public async Task<IEnumerable<Comparison>> GetAllComparisonsAsync(int? from = null, int? count = null,
+            string sortingBy = null, SortDirection desc = SortDirection.Ascending)
         {
             logger.LogInformation($"Invoke {nameof(GetAllComparisonsAsync)}()");
 
-            return await db.Comparisons.GetAsync();
+            return await db.Comparisons.GetAsync(from, count, sortingBy, desc);
         }
 
         public async Task<Comparison> GetComparisonByIdAsync(int id)
@@ -93,6 +90,14 @@ namespace LampStore.Infrastructure.Services
             await db.SaveAsync();
 
             comparison.SetId(idHolder.Id);
+        }
+
+        public async Task DeleteComparsionAsync(int id)
+        {
+            logger.LogInformation($"Invoke {nameof(DeleteComparsionAsync)}()");
+
+            await db.Comparisons.DeleteByIdAsync(id);
+            await db.SaveAsync();
         }
     }
 }

@@ -122,8 +122,8 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
 
         public async Task DeleteByIdAsync(int id)
         {
-            ComparisonEF item = 
-                await db.Comparisons.FindAsync(id) ?? throw new StorageException($"Item with id = {id} not found.");
+            ComparisonEF item = await db.Comparisons.FindAsync(id) ?? 
+                throw new ItemNotFoundStorageException($"Item with id = {id} not found.");
 
             db.Comparisons.Remove(item);
         }
@@ -136,6 +136,6 @@ namespace LampStore.Infrastructure.EFStorage.Repositories
             db.Comparisons.Update(mapper.Map<ComparisonEF>(item));
         }
 
-        //TODO: Wrap up all possible DB exception in GenericRepository into StorageException.
+        //TODO: Wrap up all possible DB exception in ComparisonsRepository into StorageException.
     }
 }

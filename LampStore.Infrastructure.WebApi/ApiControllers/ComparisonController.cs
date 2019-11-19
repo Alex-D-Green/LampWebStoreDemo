@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using LampStore.AppCore.Core.Entities;
+using LampStore.AppCore.Core.Exceptions;
 using LampStore.AppCore.Core.Interfaces;
 using LampStore.AppCore.Services.Interfaces;
 using LampStore.Infrastructure.WebApi.ApiModels;
@@ -18,6 +19,9 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
     [ApiController]
     public class ComparisonController: ControllerBase
     {
+        private const int pageSize = 3;
+
+
         private readonly ILampsComparisonService service;
         private readonly ILogger<ComparisonController> logger;
 
@@ -30,9 +34,19 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<Comparison>> Get()
+        public async Task<IEnumerable<Comparison>> Get(int? page = null, string sortingBy = null, bool desc = false)
         {
-            return await service.GetAllComparisonsAsync();
+            int? from = null;
+            int? count = null;
+
+            if(page.HasValue)
+            {
+                from = page * pageSize;
+                count = pageSize;
+            }
+
+            return await service.GetAllComparisonsAsync(from, count, sortingBy, 
+                desc ? SortDirection.Descending : SortDirection.Ascending);
         }
 
         [HttpGet("{id}")]
@@ -56,14 +70,11 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
         {
             //TODO: Check pairOfLamps...
 
-            //It should be done through a service but I had no enough time...
-            var uow = (IUnitOfWork)HttpContext.RequestServices.GetService(typeof(IUnitOfWork));
-
-            Lamp fst = await uow.Lamps.GetByIdAsync(pairOfLamps.FstLampId);
+            Lamp fst = await service.Lamps.GetByIdAsync(pairOfLamps.FstLampId);
             if(fst is null)
                 return NotFound(pairOfLamps.FstLampId);
 
-            Lamp snd = await uow.Lamps.GetByIdAsync(pairOfLamps.SndLampId);
+            Lamp snd = await service.Lamps.GetByIdAsync(pairOfLamps.SndLampId);
             if(snd is null)
                 return NotFound(pairOfLamps.SndLampId);
 
@@ -72,6 +83,20 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
             await service.SaveComparsionAsync(comp);
 
             return CreatedAtAction(nameof(Get), new { id = comp.Id }, comp);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await service.DeleteComparsionAsync(id);
+                return NoContent();
+            }
+            catch(ItemNotFoundStorageException)
+            { return NotFound(); }
         }
     }
 }

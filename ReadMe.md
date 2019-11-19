@@ -17,7 +17,7 @@ implemented outside the presentation level.
 
 ## Now I'm going to:
 
-- [ ] Implement all functionality of App services (ILampsComparisonService) and put them in WebApi.
+- [x] Implement all functionality of App services (ILampsComparisonService) and put them in WebApi.
 - [ ] Add input data validation by Fluent Validation.
 - [ ] Add EF migrations.
 - [ ] Add authentication by means of tokens.
