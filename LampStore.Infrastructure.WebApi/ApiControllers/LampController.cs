@@ -66,8 +66,6 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Lamp>> Post([FromBody] LampCreationApi lamp)
         {
-            //TODO: Check lamp...
-
             var newItem = mapper.Map<Lamp>(lamp);
             IdHolder<int> idHolder = await db.Lamps.AddAsync(newItem);
             
@@ -82,8 +80,6 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put(int id, [FromBody] LampCreationApi lamp)
         {
-            //TODO: Check lamp...
-
             Lamp ret = await db.Lamps.GetByIdAsync(id);
 
             if(ret == null)

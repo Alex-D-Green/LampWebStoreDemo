@@ -1,4 +1,6 @@
-﻿using LampStore.Infrastructure.CompositionRoot;
+﻿using FluentValidation.AspNetCore;
+
+using LampStore.Infrastructure.CompositionRoot;
 using LampStore.Infrastructure.WebApi.ApiModels;
 
 using Microsoft.AspNetCore.Builder;
@@ -27,7 +29,11 @@ namespace LampStore.Infrastructure.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PairOfLampsApiValidator>());
+            //After adding Fluent Validation into pipeline all ApiModels that get into all controllers' actions
+            //will be automatically checked by their validators (see in the models' files).
+            //If check is failed then the client automatically receive BadRequest error.
 
             //Injection from the composition root
             services.AddFromCompositionRoot(Configuration, mc => mc.AddProfile<WebAppMappingProfile>());
@@ -45,7 +51,6 @@ namespace LampStore.Infrastructure.WebApi
 
                     //It's just an example, probably all request data should be logged as well
                     logger.LogCritical(exceptionHandlerPathFeature.Error, exceptionHandlerPathFeature.Path);
-
 
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     context.Response.ContentType = "application/json";

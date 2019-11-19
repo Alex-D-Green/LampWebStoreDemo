@@ -1,4 +1,7 @@
-﻿using LampStore.AppCore.Core.Entities;
+﻿using FluentValidation;
+
+using LampStore.AppCore.Core.Entities;
+
 
 namespace LampStore.Infrastructure.WebApi.ApiModels
 {
@@ -11,5 +14,16 @@ namespace LampStore.Infrastructure.WebApi.ApiModels
         public double Cost { get; set; }
 
         public string ImageRef { get; set; }
+    }
+
+
+    public class LampCreationApiValidator: AbstractValidator<LampCreationApi>
+    {
+        public LampCreationApiValidator()
+        {
+            RuleFor(o => o.LampType).IsInEnum();
+            RuleFor(o => o.Manufacturer).NotEmpty();
+            RuleFor(o => o.Cost).GreaterThanOrEqualTo(0);
+        }
     }
 }

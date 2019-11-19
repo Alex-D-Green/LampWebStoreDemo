@@ -68,8 +68,6 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Lamp>> Post([FromBody] PairOfLampsApi pairOfLamps)
         {
-            //TODO: Check pairOfLamps...
-
             Lamp fst = await service.Lamps.GetByIdAsync(pairOfLamps.FstLampId);
             if(fst is null)
                 return NotFound(pairOfLamps.FstLampId);
