@@ -8,7 +8,7 @@ specified ones, put out IQueryable outside of a repository. All of these depends
 decision in my opinion.
 
 In this demo project I assumed that our goal is maximal separation. As if it's a outlining for a "big" App
-which is developing by several teams etc. The Onion architecture was chosen by the same purpose.
+which is developing by several teams etc. The Onion architecture was chosen for the same purpose.
 
 There is an iffy moment in this demo project about dependency injection, about composition root to be more
 precisely. I know that composition should be done in a single place and only that assembly should use IoC.
@@ -19,6 +19,6 @@ implemented outside the presentation level.
 
 - [x] Implement all functionality of App services (ILampsComparisonService) and put them in WebApi.
 - [x] Add input data validation by Fluent Validation.
+- [ ] Add front end to consume this WebApi.
 - [ ] Add EF migrations.
 - [ ] Add authentication by means of tokens.
-- [ ] Add frontend to consume this WebApi.

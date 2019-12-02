@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,11 +31,25 @@ namespace LampStore.Infrastructure.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddMvc()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PairOfLampsApiValidator>());
             //After adding Fluent Validation into pipeline all ApiModels that get into all controllers' actions
             //will be automatically checked by their validators (see in the models' files).
             //If check is failed then the client automatically receive BadRequest error.
+
+            const string allowAllOrigin = "AllowAllOrigin";
+
+            services.AddCors(options =>
+            { 
+                options.AddPolicy(allowAllOrigin, builder => builder.AllowAnyOrigin());
+            });
+
+            services.Configure<MvcOptions>(options =>
+            { //That's unsafe and used only for demo purposes
+                options.Filters.Add(new CorsAuthorizationFilterFactory(allowAllOrigin));
+            });
 
             //Injection from the composition root
             services.AddFromCompositionRoot(Configuration, mc => mc.AddProfile<WebAppMappingProfile>());

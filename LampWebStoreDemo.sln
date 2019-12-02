@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LampStore.Infrastructure.Presentation", "LampStore.Infrastructure.Presentation\LampStore.Infrastructure.Presentation.csproj", "{3951F67B-4590-43FD-82EC-617E31363758}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{1CFD0D51-55D4-421C-AB2B-CA95E8552A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CFD0D51-55D4-421C-AB2B-CA95E8552A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CFD0D51-55D4-421C-AB2B-CA95E8552A62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3951F67B-4590-43FD-82EC-617E31363758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3951F67B-4590-43FD-82EC-617E31363758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3951F67B-4590-43FD-82EC-617E31363758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3951F67B-4590-43FD-82EC-617E31363758}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{45643412-63BF-4A88-A030-0DB7FFF1554F} = {26ECDEB6-EEC5-464B-A2F3-BB8B29F1E2A3}
 		{4835A9E8-35FF-4C18-9E5B-9B7D6575793A} = {26ECDEB6-EEC5-464B-A2F3-BB8B29F1E2A3}
 		{1CFD0D51-55D4-421C-AB2B-CA95E8552A62} = {26ECDEB6-EEC5-464B-A2F3-BB8B29F1E2A3}
+		{3951F67B-4590-43FD-82EC-617E31363758} = {26ECDEB6-EEC5-464B-A2F3-BB8B29F1E2A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE62EB25-DA6D-422E-BA15-076B908465FA}

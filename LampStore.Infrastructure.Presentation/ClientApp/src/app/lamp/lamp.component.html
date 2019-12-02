@@ -1,0 +1,23 @@
+<h2>Lamps page</h2>
+
+<br />
+
+<table class="table table-striped">
+  <tr class="info">
+    <th>Id</th>
+    <th>Manufacturer</th>
+    <th>LampType</th>
+    <th>Cost</th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let lamp of lamps">
+    <td>{{lamp.id}}</td>
+    <td>{{lamp.manufacturer}}</td>
+    <td>{{lamp.lampType}}</td>
+    <td>${{lamp.cost}}</td>
+    <td>
+      <img *ngIf="lamp.imageRef != undifined && lamp.imageRef != null"
+           src="{{lamp.imageRef}}" style="max-height:50px; max-width:50px" class="img-thumbnail"/>
+    </td>
+  </tr>
+</table>
