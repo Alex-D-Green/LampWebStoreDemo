@@ -33,6 +33,14 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
         }
 
 
+        /// <summary>
+        /// Fetch the portion of the lamps items.
+        /// </summary>
+        /// <param name="page">Page number (<c>null</c> - to fetch all items).</param>
+        /// <param name="sortingBy">Property name for sorting.</param>
+        /// <param name="desc"><c>true</c> to sort in descending order.</param>
+        /// <returns></returns>
+        /// <response code="200">The portion of the lamps items.</response>
         [HttpGet]
         public async Task<IEnumerable<Lamp>> Get(int? page = null, string sortingBy = null, bool desc = false)
         {
@@ -48,6 +56,13 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
             return await db.Lamps.GetAsync(from, count, sortingBy, desc ? SortDirection.Descending : SortDirection.Ascending);
         }
 
+        /// <summary>
+        /// Fetch the lamp item with the given id.
+        /// </summary>
+        /// <param name="id">The id of the item.</param>
+        /// <returns></returns>
+        /// <response code="200">The lamp item with the given id.</response>
+        /// <response code="404">If item with the given id was not found.</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,6 +76,13 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
             return ret;
         }
 
+        /// <summary>
+        /// Create a new lamp item.
+        /// </summary>
+        /// <param name="lamp">New item data.</param>
+        /// <returns></returns>
+        /// <response code="201">The newly created lamp item.</response>
+        /// <response code="400">If item contains incorrect data.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -75,6 +97,14 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
             return CreatedAtAction(nameof(Get), new { id = newItem.Id }, newItem);
         }
 
+        /// <summary>
+        /// Update the lamp item data.
+        /// </summary>
+        /// <param name="id">The id of the item.</param>
+        /// <param name="lamp">Updated item data.</param>
+        /// <response code="204">If data was accepted.</response>
+        /// <response code="404">If item with the given id was not found.</response>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,6 +124,13 @@ namespace LampStore.Infrastructure.WebApi.ApiControllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete item with the given id.
+        /// </summary>
+        /// <param name="id">The id of the item.</param>
+        /// <returns></returns>
+        /// <response code="204">If the item was deleted.</response>
+        /// <response code="404">If item with the given id was not found.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

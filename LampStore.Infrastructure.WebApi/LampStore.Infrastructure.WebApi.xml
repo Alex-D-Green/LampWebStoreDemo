@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LampStore.Infrastructure.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:LampStore.Infrastructure.WebApi.ApiControllers.LampController.Get(System.Nullable{System.Int32},System.String,System.Boolean)">
+            <summary>
+            Fetch the portion of the lamps items.
+            </summary>
+            <param name="page">Page number (<c>null</c> - to fetch all items).</param>
+            <param name="sortingBy">Property name for sorting.</param>
+            <param name="desc"><c>true</c> to sort in descending order.</param>
+            <returns></returns>
+            <response code="200">The portion of the lamps items.</response>
+        </member>
+        <member name="M:LampStore.Infrastructure.WebApi.ApiControllers.LampController.Get(System.Int32)">
+            <summary>
+            Fetch the lamp item with the given id.
+            </summary>
+            <param name="id">The id of the item.</param>
+            <returns></returns>
+            <response code="200">The lamp item with the given id.</response>
+            <response code="404">If item with the given id was not found.</response>
+        </member>
+        <member name="M:LampStore.Infrastructure.WebApi.ApiControllers.LampController.Post(LampStore.Infrastructure.WebApi.ApiModels.LampCreationApi)">
+            <summary>
+            Create a new lamp item.
+            </summary>
+            <param name="lamp">New item data.</param>
+            <returns></returns>
+            <response code="201">The newly created lamp item.</response>
+            <response code="400">If item contains incorrect data.</response>
+        </member>
+        <member name="M:LampStore.Infrastructure.WebApi.ApiControllers.LampController.Put(System.Int32,LampStore.Infrastructure.WebApi.ApiModels.LampCreationApi)">
+            <summary>
+            Update the lamp item data.
+            </summary>
+            <param name="id">The id of the item.</param>
+            <param name="lamp">Updated item data.</param>
+            <response code="204">If data was accepted.</response>
+            <response code="404">If item with the given id was not found.</response>
+            <returns></returns>
+        </member>
+        <member name="M:LampStore.Infrastructure.WebApi.ApiControllers.LampController.Delete(System.Int32)">
+            <summary>
+            Delete item with the given id.
+            </summary>
+            <param name="id">The id of the item.</param>
+            <returns></returns>
+            <response code="204">If the item was deleted.</response>
+            <response code="404">If item with the given id was not found.</response>
+        </member>
+        <member name="T:LampStore.Infrastructure.WebApi.ApiModels.ErrorDetailsApi">
+            <summary>
+            Error information.
+            </summary>
+        </member>
+    </members>
+</doc>

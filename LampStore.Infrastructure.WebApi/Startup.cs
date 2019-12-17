@@ -1,4 +1,6 @@
-﻿using FluentValidation.AspNetCore;
+﻿using System;
+
+using FluentValidation.AspNetCore;
 
 using LampStore.Infrastructure.CompositionRoot;
 using LampStore.Infrastructure.WebApi.ApiModels;
@@ -13,11 +15,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Swashbuckle.AspNetCore.Swagger;
+
 
 namespace LampStore.Infrastructure.WebApi
 {
     public class Startup
     {
+        public const string WebApiV1Name = "Lamp Store API";
+
+
         public IConfiguration Configuration { get; }
 
 
@@ -53,6 +60,28 @@ namespace LampStore.Infrastructure.WebApi
 
             //Injection from the composition root
             services.AddFromCompositionRoot(Configuration, mc => mc.AddProfile<WebAppMappingProfile>());
+
+            //Register the Swagger generator
+            //https://dev.to/lucas0707/how-to-quickly-install-swagger-in-a-net-core-application-jkc
+            //https://aspnetcore.readthedocs.io/en/stable/tutorials/web-api-help-pages-using-swagger.html
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = WebApiV1Name, Version = "v1" });
+
+                //Adding xml comments to Swagger Api description (see ApiControllers\LampController)
+                c.IncludeXmlComments(AppContext.BaseDirectory + "\\LampStore.Infrastructure.WebApi.xml");
+
+                //TODO: Config Swagger when authentication will be done.
+                //c.AddSecurityDefinition("Bearer", new ApiKeyScheme {
+                //    In = "header",
+                //    Name = "Authorization",
+                //    Type = "apiKey"
+                //});
+
+                //c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                //    { "Bearer", Enumerable.Empty<string>() },
+                //});
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +109,16 @@ namespace LampStore.Infrastructure.WebApi
 
             app.UseStatusCodePages();
             app.UseMvc();
+
+
+            //Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            //Enable middleware to serve Swagger-UI assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{WebApiV1Name} v1");
+            });
         }
     }
 }

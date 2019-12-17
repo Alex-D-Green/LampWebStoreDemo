@@ -23,7 +23,7 @@ namespace LampStore.Infrastructure.WebApi.ApiModels
         {
             RuleFor(o => o.LampType).IsInEnum();
             RuleFor(o => o.Manufacturer).NotEmpty();
-            RuleFor(o => o.Cost).GreaterThanOrEqualTo(0);
+            RuleFor(o => o.Cost).GreaterThan(0);
         }
     }
 }

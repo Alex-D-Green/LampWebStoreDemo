@@ -19,6 +19,7 @@ implemented outside the presentation level.
 
 - [x] Implement all functionality of App services (ILampsComparisonService) and put them in WebApi.
 - [x] Add input data validation by Fluent Validation.
+- [x] Plug in [Swagger](https://swagger.io/) tool.
 - [ ] Add front end to consume this WebApi.
 - [ ] Add EF migrations.
 - [ ] Add authentication by means of tokens.
